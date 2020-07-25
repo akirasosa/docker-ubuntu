@@ -25,23 +25,27 @@ USER user
 
 # All users can use /home/user as their home directory
 ENV HOME=/home/user
+ENV PATH=$PATH:/home/user/local/anaconda3/bin
 RUN chmod 777 /home/user
 WORKDIR /home/user
+RUN mkdir ./local
 
 RUN yadm clone https://gitlab.com/akirasosa/dotfiles.git
 RUN curl -sL git.io/antibody | sh -s
 RUN ./bin/antibody bundle
-RUN mkdir ./local
 RUN curl -s https://dl.google.com/go/go1.14.6.linux-amd64.tar.gz > ~/go.tar.gz \
-  && tar xzvf ~/go.tar.gz -C ./local \
+  && tar xzf ~/go.tar.gz -C ./local \
   && rm -rf ~/go.tar.gz
+RUN ~/local/go/bin/go get github.com/x-motemen/ghq
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
   && ~/.fzf/install --no-key-bindings --no-completion --no-update-rc
 RUN curl -s https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh > ~/anaconda.sh \
-  && /bin/bash ~/anaconda.sh -b \
-  && rm ~/anaconda.sh
-RUN ~/local/go/bin/go get github.com/x-motemen/ghq
-ENV PATH=$PATH:/home/user/anaconda3/bin
+  && /bin/bash ~/anaconda.sh -b -p ~/local/anaconda3 \
+  && rm -rf ~/anaconda.sh
+RUN curl -s https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-301.0.0-linux-x86_64.tar.gz > google-cloud-sdk.tar.gz \
+  && tar xzf google-cloud-sdk.tar.gz \
+  && mv google-cloud-sdk ~/local/ \
+  && rm -rf google-cloud-sdk.tar.gz
 RUN jupyter notebook --generate-config \
 	&& pip install jupyter_contrib_nbextensions \
 	&& jupyter contrib nbextension install --user \
