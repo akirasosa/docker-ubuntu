@@ -32,7 +32,7 @@ RUN mkdir ./local
 
 RUN yadm clone https://gitlab.com/akirasosa/dotfiles.git
 RUN curl -sL git.io/antibody | sh -s
-RUN ./bin/antibody bundle
+RUN ./bin/antibody bundle < ~/.zsh_plugins.txt
 RUN curl -s https://dl.google.com/go/go1.14.6.linux-amd64.tar.gz > ~/go.tar.gz \
   && tar xzf ~/go.tar.gz -C ./local \
   && rm -rf ~/go.tar.gz
