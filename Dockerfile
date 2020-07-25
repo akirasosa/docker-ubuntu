@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
     autojump \
     direnv \
  && rm -rf /var/lib/apt/lists/*
+RUN apt-get autoremove -y &&\
+  apt-get clean &&\
+  rm -rf /usr/local/src/*
 
 # Create a non-root user and switch to it
 RUN mkdir /app
@@ -54,6 +57,10 @@ RUN jupyter notebook --generate-config \
 	&& git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding \
 	&& chmod -R go-w vim_binding \
 	&& jupyter nbextension enable vim_binding/vim_binding
+
+# Clean up
+RUN rm -rf ~/.cache/pip
+RUN conda clean -i -t -y
 
 WORKDIR /app
 
