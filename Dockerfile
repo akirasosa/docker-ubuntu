@@ -46,7 +46,8 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
   && ~/.fzf/install --no-key-bindings --no-completion --no-update-rc
 RUN curl -sS https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/anaconda.sh \
   && /bin/bash ~/anaconda.sh -b -p ~/local/anaconda3 \
-  && rm -rf ~/anaconda.sh
+  && rm -rf ~/anaconda.sh \
+  && conda clean -i -t -y
 RUN curl -sS https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-301.0.0-linux-x86_64.tar.gz > google-cloud-sdk.tar.gz \
   && tar xzf google-cloud-sdk.tar.gz \
   && mv google-cloud-sdk ~/local/ \
@@ -58,8 +59,7 @@ RUN pip install --no-cache-dir notebook jupyter_contrib_nbextensions \
   && cd $(jupyter --data-dir)/nbextensions \
   && git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding \
   && chmod -R go-w vim_binding \
-  && jupyter nbextension enable vim_binding/vim_binding \
-  && conda clean -i -t -y
+  && jupyter nbextension enable vim_binding/vim_binding
 
 WORKDIR /app
 
