@@ -36,21 +36,21 @@ RUN mkdir ./local
 RUN yadm clone https://gitlab.com/akirasosa/dotfiles.git
 RUN curl -sL git.io/antibody | sh -s
 RUN ./bin/antibody bundle < ~/.zsh_plugins.txt
-RUN curl -s https://dl.google.com/go/go1.14.6.linux-amd64.tar.gz > ~/go.tar.gz \
+RUN curl -sS https://dl.google.com/go/go1.14.6.linux-amd64.tar.gz > ~/go.tar.gz \
   && tar xzf ~/go.tar.gz -C ./local \
   && rm -rf ~/go.tar.gz
 RUN ~/local/go/bin/go get github.com/x-motemen/ghq
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
   && ~/.fzf/install --no-key-bindings --no-completion --no-update-rc
-RUN curl -s https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh > ~/anaconda.sh \
+RUN curl -sS https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/anaconda.sh \
   && /bin/bash ~/anaconda.sh -b -p ~/local/anaconda3 \
   && rm -rf ~/anaconda.sh
-RUN curl -s https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-301.0.0-linux-x86_64.tar.gz > google-cloud-sdk.tar.gz \
+RUN curl -sS https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-301.0.0-linux-x86_64.tar.gz > google-cloud-sdk.tar.gz \
   && tar xzf google-cloud-sdk.tar.gz \
   && mv google-cloud-sdk ~/local/ \
   && rm -rf google-cloud-sdk.tar.gz
-RUN jupyter notebook --generate-config \
-	&& pip install jupyter_contrib_nbextensions \
+RUN pip install notebook jupyter_contrib_nbextensions \
+	&& jupyter notebook --generate-config \
 	&& jupyter contrib nbextension install --user \
 	&& mkdir -p $(jupyter --data-dir)/nbextensions \
 	&& cd $(jupyter --data-dir)/nbextensions \
