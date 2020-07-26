@@ -14,15 +14,16 @@ RUN apt-get update && apt-get install -y \
     vim \
     autojump \
     direnv \
- && rm -rf /var/lib/apt/lists/*
-RUN apt-get autoremove -y &&\
-  apt-get clean &&\
-  rm -rf /usr/local/src/*
+    task-spooler \
+  && rm -rf /var/lib/apt/lists/*
+RUN apt-get autoremove -y \
+  && apt-get clean \
+  && rm -rf /usr/local/src/*
 
 # Create a non-root user and switch to it
 RUN mkdir /app
 RUN adduser --disabled-password --gecos '' --shell /usr/bin/zsh user \
- && chown -R user:user /app
+  && chown -R user:user /app
 RUN echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-user
 USER user
 
@@ -50,13 +51,13 @@ RUN curl -sS https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-c
   && mv google-cloud-sdk ~/local/ \
   && rm -rf google-cloud-sdk.tar.gz
 RUN pip install notebook jupyter_contrib_nbextensions \
-	&& jupyter notebook --generate-config \
-	&& jupyter contrib nbextension install --user \
-	&& mkdir -p $(jupyter --data-dir)/nbextensions \
-	&& cd $(jupyter --data-dir)/nbextensions \
-	&& git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding \
-	&& chmod -R go-w vim_binding \
-	&& jupyter nbextension enable vim_binding/vim_binding
+  && jupyter notebook --generate-config \
+  && jupyter contrib nbextension install --user \
+  && mkdir -p $(jupyter --data-dir)/nbextensions \
+  && cd $(jupyter --data-dir)/nbextensions \
+  && git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding \
+  && chmod -R go-w vim_binding \
+  && jupyter nbextension enable vim_binding/vim_binding
 
 # Clean up
 RUN rm -rf ~/.cache/pip
