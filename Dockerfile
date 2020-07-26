@@ -44,14 +44,14 @@ RUN curl -sS https://dl.google.com/go/go1.14.6.linux-amd64.tar.gz > ~/go.tar.gz 
 RUN ~/local/go/bin/go get github.com/x-motemen/ghq
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
   && ~/.fzf/install --no-key-bindings --no-completion --no-update-rc
-RUN curl -sS https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/anaconda.sh \
-  && /bin/bash ~/anaconda.sh -b -p ~/local/anaconda3 \
-  && rm -rf ~/anaconda.sh \
-  && conda clean -i -t -y
 RUN curl -sS https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-301.0.0-linux-x86_64.tar.gz > google-cloud-sdk.tar.gz \
   && tar xzf google-cloud-sdk.tar.gz \
   && mv google-cloud-sdk ~/local/ \
   && rm -rf google-cloud-sdk.tar.gz
+RUN curl -sS https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > ~/anaconda.sh \
+  && /bin/bash ~/anaconda.sh -b -p ~/local/anaconda3 \
+  && rm -rf ~/anaconda.sh \
+  && conda clean -i -t -y
 RUN pip install --no-cache-dir notebook jupyter_contrib_nbextensions \
   && jupyter notebook --generate-config \
   && jupyter contrib nbextension install --user \
