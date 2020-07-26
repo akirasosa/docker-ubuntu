@@ -2,19 +2,20 @@ FROM nvidia/cuda:10.2-base-ubuntu18.04
 
 # Install some basic utilities
 RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
-    sudo \
-    git \
+    autojump \
     bzip2 \
+    ca-certificates \
+    curl \
+    direnv \
+    git \
     libx11-6 \
-    yadm \
-    zsh \
+    rsync \
+    sudo \
+    task-spooler \
     tmux \
     vim \
-    autojump \
-    direnv \
-    task-spooler \
+    yadm \
+    zsh \
   && rm -rf /var/lib/apt/lists/*
 RUN apt-get autoremove -y \
   && apt-get clean \
@@ -50,18 +51,15 @@ RUN curl -sS https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-c
   && tar xzf google-cloud-sdk.tar.gz \
   && mv google-cloud-sdk ~/local/ \
   && rm -rf google-cloud-sdk.tar.gz
-RUN pip install notebook jupyter_contrib_nbextensions \
+RUN pip install --no-cache-dir notebook jupyter_contrib_nbextensions \
   && jupyter notebook --generate-config \
   && jupyter contrib nbextension install --user \
   && mkdir -p $(jupyter --data-dir)/nbextensions \
   && cd $(jupyter --data-dir)/nbextensions \
   && git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding \
   && chmod -R go-w vim_binding \
-  && jupyter nbextension enable vim_binding/vim_binding
-
-# Clean up
-RUN rm -rf ~/.cache/pip
-RUN conda clean -i -t -y
+  && jupyter nbextension enable vim_binding/vim_binding \
+  && conda clean -i -t -y
 
 WORKDIR /app
 
