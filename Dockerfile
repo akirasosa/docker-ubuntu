@@ -49,7 +49,7 @@ RUN curl -sS https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
   && rm -rf ~/anaconda.sh \
   && conda update conda -y \
   && conda clean -i -t -y
-RUN conda install -c conda-forge \
+RUN conda install -c conda-forge -y \
   go-ghq \
   jupyter_contrib_nbextensions \
   && conda clean -i -t -y
