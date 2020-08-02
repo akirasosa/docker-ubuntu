@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     yadm \
     zsh \
-  && rm -rf /var/lib/apt/lists/*
-RUN apt-get autoremove -y \
+  && rm -rf /var/lib/apt/lists/* \
+  && apt-get autoremove -y \
   && apt-get clean \
   && rm -rf /usr/local/src/*
 
@@ -48,11 +48,10 @@ RUN curl -sS https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
   && /bin/bash ~/anaconda.sh -b -p ~/local/anaconda3 \
   && rm -rf ~/anaconda.sh \
   && conda update conda -y \
-  && conda clean -i -t -y
-RUN conda install -c conda-forge -y \
-  python=3.8 \
-  go-ghq \
-  jupyter_contrib_nbextensions \
+  && conda install -c conda-forge -y \
+    python=3.8 \
+    go-ghq \
+    jupyter_contrib_nbextensions \
   && conda clean -i -t -y
 RUN jupyter notebook --generate-config \
   && jupyter contrib nbextension install --user \
