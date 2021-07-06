@@ -36,8 +36,7 @@ WORKDIR /home/user
 RUN mkdir ./local
 
 RUN yadm clone https://gitlab.com/akirasosa/dotfiles.git
-RUN curl -sL git.io/antibody | sh -s
-RUN ./bin/antibody bundle < ~/.zsh_plugins.txt
+RUN curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
   && ~/.fzf/install --no-key-bindings --no-completion --no-update-rc
 RUN curl -sS https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-301.0.0-linux-x86_64.tar.gz > google-cloud-sdk.tar.gz \
@@ -49,7 +48,7 @@ RUN curl -sS https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
   && rm -rf ~/anaconda.sh \
   && conda update conda -y \
   && conda install -c conda-forge -y \
-    python=3.8 \
+    python=3.9 \
     crcmod \
     go-ghq \
     jupyter_contrib_nbextensions \
