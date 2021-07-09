@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
     direnv \
+    gawk \
     git \
     libx11-6 \
     rsync \
