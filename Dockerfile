@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     yadm \
     zsh \
+    locales-all \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get autoremove -y \
   && apt-get clean \
